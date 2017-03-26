@@ -82,6 +82,7 @@ public class SpeechToText extends AppCompatActivity implements TextToSpeech.OnIn
     String ACCESS_TOKEN="67565cd4b0a34c6c82ec141d969541be";
     private TextView txtSpeechInput,res;
     private FloatingActionButton btnSpeak;
+    private ImageButton phone;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -89,14 +90,28 @@ public class SpeechToText extends AppCompatActivity implements TextToSpeech.OnIn
         setContentView(R.layout.activity_speechtotext);
         txtSpeechInput=(TextView)findViewById(R.id.txtSpeechInput);
         res=(TextView)findViewById(R.id.response);
+        phone = (ImageButton) findViewById(R.id.phone);
+
+        tts = new TextToSpeech(this, this);
+
         //refbut = (FloatingActionButton)findViewById(R.id.float_butt2);
         chatbut = (FloatingActionButton)findViewById(R.id.float_butt1);
         btnSpeak=(FloatingActionButton)findViewById(R.id.btnSpeak);
         //cardView =(CardView)findViewById(R.id.card_view1);
-        tts = new TextToSpeech(this,this);
+
         btnSpeak=(FloatingActionButton)findViewById(R.id.btnSpeak);
         //cardView =(CardView)findViewById(R.id.card_view1);
-        tts = new TextToSpeech(SpeechToText.this,SpeechToText.this);
+
+
+
+
+        phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SpeechToText.this , PhoneActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         btAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -337,6 +352,8 @@ public class SpeechToText extends AppCompatActivity implements TextToSpeech.OnIn
                                 //MySingleton.getInstance(SpeechToText.this).addToRequestQueue();
 
                                 res.setText(s);
+                                speakOut(s);
+
 
 
                                 if (action1.equals("turn on")) {
@@ -411,7 +428,7 @@ public class SpeechToText extends AppCompatActivity implements TextToSpeech.OnIn
                 Log.d("TTS", "This Language is not supported");
             } else {
                // btnspeak.setEnabled(true);
-                speakOut();
+                //speakOut();
             }
 
         } else {
@@ -422,11 +439,19 @@ public class SpeechToText extends AppCompatActivity implements TextToSpeech.OnIn
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onDestroy();
+
     }
 
-    private void speakOut() {
-       String text = res.getText().toString();
+    private void speakOut(String text) {
+        text = res.getText().toString();
         tts.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+
+
     }
 }
 

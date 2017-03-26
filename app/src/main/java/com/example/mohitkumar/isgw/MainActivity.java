@@ -2,6 +2,7 @@ package com.example.mohitkumar.isgw;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements AIListener,TextTo
 
         button = (ImageButton) findViewById(R.id.button_mic);
 
+
         int permissionCheck = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
 
 
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements AIListener,TextTo
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},CODE);
             return;
         }
+
+
 
         tts = new TextToSpeech(this,this);
         textView = (TextView)findViewById(R.id.resulttext);
@@ -68,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements AIListener,TextTo
             @Override
             public void onClick(View v) {
                 List<AIContext> contexts = new ArrayList<>();
-                contexts.add(new AIContext("I want news on sex"));
+                contexts.add(new AIContext("I want news "));
                 //contexts.add(new AIContext("secondContext"));
                 RequestExtras requestExtras = new RequestExtras(contexts, null);
                 aiService.startListening(requestExtras);

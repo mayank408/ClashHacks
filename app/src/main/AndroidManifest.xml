@@ -25,6 +25,8 @@
             android:parentActivityName=".SpeechToText"
             />
         <activity android:name=".LEDOnOff"/>
+        <activity android:name=".PhoneActivity"/>
+
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
